@@ -81,3 +81,5 @@ npx tsc -p <tsconfig.jsonへのパス> <ソースファイルへのパス>
 [tsconfigの各項目について](https://qiita.com/ryokkkke/items/390647a7c26933940470)
 
 [トランスパイル参考](https://qiita.com/Yuu_tsm/items/2676a7bc5ad4fe374a18)
+
+[これ読む](https://qiita.com/cosocaf/items/255003ecec1d3badfc7b)
