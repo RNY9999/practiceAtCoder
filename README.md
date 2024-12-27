@@ -1,7 +1,4 @@
-# practiceAtCoder
-AtCoder練習用
-
-## 環境構築
+# AtCoder用Typescriptの環境構築
 
 ### nodeのインストール
 
@@ -12,6 +9,9 @@ nodeがインストールされているか確認
 ```
 // コマンドプロンプト等で確認
 node -v
+
+// 一応npmのバージョンも確認
+npm -v
 ```
 
 ### Typescriptの環境構築
@@ -70,6 +70,9 @@ console.log("hello world");
 ```
 npx tsc -p <tsconfig.jsonへのパス> <ソースファイルへのパス>
 ```
+
+## トランスパイルの設定
+
 
 上記がなぜか失敗したので、以下を参考にしました
 
