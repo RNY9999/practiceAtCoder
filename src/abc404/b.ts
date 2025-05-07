@@ -1,7 +1,7 @@
 import * as readline from 'node:readline/promises';
-import {stdin as input, stdout as output} from 'node:process';
+import { stdin as input, stdout as output } from 'node:process';
 
-const rl = readline.createInterface({input, output});
+const rl = readline.createInterface({ input, output });
 
 const lines: string[] = [];
 
@@ -26,74 +26,46 @@ const solution = (): void => {
         T.push(lines[i + N].split(''));
     }
 
-    // SとTが一致しているかどうかのフラグ
-    let isMatchSandT: boolean = false;
-    // Sの操作数
-    let operationCount: number = 0;
+    // 0度回転させた際の操作数
+    let operationCountOf0 = countMismatches(S, T, N);
+    // 90度回転させた際の操作数
+    let operationCountOf90 = countMismatches(rotatedS(S, N, 90), T, N) + 1;
+    // 180度回転させた際の操作数
+    let operationCountOf180 = countMismatches(rotatedS(S, N, 180), T, N) + 2;
+    // 270度回転させた際の操作数
+    let operationCountOf270 = countMismatches(rotatedS(S, N, 270), T, N) + 3;
 
-    // SとTが一致するまでwhileループ
-    while (!isMatchSandT) {
-        // SとTの不一致数
-        let mismatchCount: number = 0;
-        // 不一致数の確認
-        for (let i = 0; i < N; i++) {
-            for (let j = 0; j < N; j++) {
-                // SとTga不一致の場合不一致カウントを増やす
-                if (S[i][j] !== T[i][j]) {
-                    mismatchCount++;
-                }
-            }
-        }
-        // 不一致の場合の操作
-        /**
-         * 操作の詳細
-         * 1. Sの好きな要素を一つ変更
-         * 2. Sを90度回転
-         */
-        // 90度回転させた際の不一致数を計算
-        let rotated90S: string[][] = [];
-        for (let j = 0; j < N; j++) {
-            rotated90S.push([]);
-            for (let i = 0; i < N; i++) {
-                rotated90S[j].push(S[N - i - 1][j]);
-            }
-        }
-        // rotated90SとTの不一致数を計算
-        let rotated90MismatchCount: number = 0;
-        // 不一致数の確認
-        for (let i = 0; i < N; i++) {
-          for (let j = 0; j < N; j++) {
-              // SとTga不一致の場合不一致カウントを増やす
-              if (rotated90S[i][j] !== T[i][j]) {
-                  rotated90MismatchCount++;
-              }
-          }
-        }
+    // 最小の操作数を出力
+    console.log(Math.min(operationCountOf0, operationCountOf90, operationCountOf180, operationCountOf270))
+  }
 
-        if (rotated90MismatchCount < mismatchCount - 1) {
-            // Sを90度回転
-            S = rotated90S;
-            operationCount++;
-        } else {
-          for (let i = 0; i < N; i++) {
-            for (let j = 0; j < N; j++) {
-                // SとTが不一致の場合不一致カウントを増やす
-                if (rotated90S[j][N - i - 1] !== T[i][j] && S[i][j] !== T[i][j]) {
-                    S[i][j] = T[i][j];
-                    operationCount++;
-                } else if (S[i][j] !== T[i][j]) {
-                  S[i][j] = T[i][j];
-                    operationCount++;
-                }
-            }
+// SとTの不一致数をカウントする関数
+const countMismatches = (S: string[][], T: string[][], N: number): number => {
+    let mismatchCount: number = 0;
+
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+          // SとTが不一致の場合不一致カウントを増やす
+          if (S[i][j] !== T[i][j]) {
+              mismatchCount++;
           }
-        }
-        // 一致する場合は終了
-        if (mismatchCount === 0) {
-          isMatchSandT = true;
-        }
+      }
     }
-    
-    // operationCountを出力
-    console.log(operationCount);
+    return mismatchCount;
+}
+
+// Sを[90, 180, 270]度回転させる関数
+const rotatedS = (S: string[][], N: number, degree: number): string[][] => {
+    let rotateS: string[][] = [];
+    for (let j = 0; j < N; j++) {
+      rotateS.push([]);
+      for (let i = 0; i < N; i++) {
+          rotateS[j].push(S[N - i - 1][j]);
+      }
+    }
+    if (degree > 90) {
+      return rotatedS(rotateS, N, degree - 90);
+    } else {
+      return rotateS;
+    }
 }

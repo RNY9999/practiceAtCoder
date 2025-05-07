@@ -1,5 +1,12 @@
 # AtCoder用Typescriptの環境構築
 
+### memo
+```
+npm run tsc
+
+node {path}
+```
+
 ### nodeのインストール
 
 nodeがインストールされているか確認
